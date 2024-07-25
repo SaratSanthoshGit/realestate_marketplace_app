@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "614459056873",
+    "project_id": "group5-firebase-project2",
+    "storage_bucket": "group5-firebase-project2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614459056873:android:41039bc67a4fbdc8380678",
+        "android_client_info": {
+          "package_name": "com.example.realestate_marketplace_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNZUsKoyfcTjXgoQMpije-jNAfSIFpTXY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
