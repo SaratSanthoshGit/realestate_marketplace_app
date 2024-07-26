@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FetchPixels(context);
+    fetchPixels(context);
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
@@ -43,5 +43,9 @@ class MyApp extends StatelessWidget {
       ),
       home: (box.read("isSkipped") ?? false) ? Dashboard() : OnBoardingPage(),
     );
+  }
+
+  void fetchPixels(BuildContext context) {
+    // Your implementation of the 'FetchPixels' method goes here
   }
 }
