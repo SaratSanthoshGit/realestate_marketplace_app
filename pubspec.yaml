@@ -41,6 +41,24 @@ dependencies:
   get_storage: ^2.1.1
   flutter_native_splash: ^2.4.1
 
+  get: any
+  flutter_zoom_drawer: any
+  carousel_slider: any
+  maps_launcher: any
+  url_launcher: any
+  flutter_map: any
+  latlong2: any
+  animated_toggle_switch: any
+  file_picker: any
+  firebase_storage: any
+  flutter_image_compress: any
+  path_provider: any
+  introduction_screen: any
+  flutter_cached_pdfview: any
+  geolocator: any
+  avatar_glow: any
+  fluttertoast: any
+  lottie: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

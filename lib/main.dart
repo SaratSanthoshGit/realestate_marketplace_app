@@ -1,16 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:realestate_marketplace_app/screens/dashboard/dashboard.dart';
-import 'package:realestate_marketplace_app/utils/manager/font_manager.dart';
-import 'package:realestate_marketplace_app/utils/resizer/fetch_pixels.dart';
 
-import 'controller/binder.dart';
-import 'firebase_options.dart';
-import 'screens/onboarding/onboarding_page.dart';
 
 void main() async {
   final binding = WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +26,8 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   GetStorage box = GetStorage();
+
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
