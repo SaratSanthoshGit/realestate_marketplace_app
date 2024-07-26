@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'screens/dashboard/dashboard.dart';
+import 'screens/onboarding/onboarding_page.dart';
+import 'utils/manager/font_manager.dart';
 
 
 void main() async {
@@ -23,7 +26,6 @@ void main() async {
   });
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   GetStorage box = GetStorage();
 
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Caves Real Estate",
-      initialBinding: Binder(),
+      initialBinding: BindingsBuilder(() => {}),
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: fontNunito,

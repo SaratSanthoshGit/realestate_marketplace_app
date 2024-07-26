@@ -13,7 +13,6 @@ import 'package:realestate_marketplace_app/widget/appbar/first_appbar.dart';
 import 'package:realestate_marketplace_app/widget/buttons/secondary_button.dart';
 import 'package:realestate_marketplace_app/widget/home_card.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../model/place_model.dart';
 import '../../utils/manager/color_manager.dart';
 import '../../utils/resizer/fetch_pixels.dart';
@@ -113,7 +112,7 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       getCustomFont(
-                        "Enter the reason!",
+                        "Enter the reason:",
                         22,
                         Colors.black,
                         1,
@@ -140,7 +139,7 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                               onTap: () {
                                 if (reason.text.isEmpty) {
                                   ToastManager.shared.show(
-                                      "Please enter the reason for rejection!");
+                                      "Cause for rejection: :");
                                 } else {
                                   data.rejectPlace(
                                       widget.placeData?.placeId, reason.text);
@@ -271,8 +270,7 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                                               color: grey,
                                               child: Image(
                                                 image: NetworkImage(
-                                                  e ??
-                                                      "https://via.placeholder.com/400x500",
+                                                  e,
                                                 ),
                                                 width: double.infinity,
                                                 height: double.infinity,
@@ -323,7 +321,8 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                                     ),
                                   ),
                                 ],
-                              )
+                              ),
+                              HomeDetailView(placeData: widget.placeData),
                             ],
                           ),
                           vSpace(15),
@@ -545,7 +544,7 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                             Row(
                               children: [
                                 getCustomFont(
-                                  "$ ${formatPrice(double.parse(widget.placeData!.price!))}",
+                                  formatPrice(double.parse(widget.placeData!.price!)),
                                   22,
                                   Colors.black,
                                   1,
@@ -595,7 +594,7 @@ class _HomeDetailViewState extends State<HomeDetailView> {
                       : Row(
                           children: [
                             getCustomFont(
-                              "$ ${formatPrice(double.parse(widget.placeData!.price!))}",
+                              " ${formatPrice(double.parse(widget.placeData!.price!))}",
                               22,
                               Colors.black,
                               1,

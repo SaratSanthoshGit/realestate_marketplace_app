@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:realestate_marketplace_app/controller/route_controller.dart';
+import 'package:realestate_marketplace_app/model/place_model.dart';
 import 'package:realestate_marketplace_app/screens/home/vm_home.dart';
 import 'package:realestate_marketplace_app/widget/appbar/first_appbar.dart';
-
-import '../../model/place_model.dart';
 import '../../utils/manager/loading_manager.dart';
 import '../../utils/resizer/fetch_pixels.dart';
 import '../../widget/home_card.dart';
@@ -16,6 +16,7 @@ class Favorites extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VMHome vmHome = VMHome.to;
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         RouteController.to.currentPos.value = 0;
@@ -94,7 +95,6 @@ class Favorites extends StatelessWidget {
                                 },
                               );
                             } else {
-                              print(snapshot.error);
                               return getErrorMessage();
                             }
                           },

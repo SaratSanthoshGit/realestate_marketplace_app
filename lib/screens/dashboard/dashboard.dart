@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
+import 'package:realestate_marketplace_app/controller/route_controller.dart';
 import 'package:realestate_marketplace_app/screens/dashboard/c_drawer.dart';
 import 'package:realestate_marketplace_app/screens/favorites/favorites.dart';
 import 'package:realestate_marketplace_app/screens/home/home.dart';
@@ -17,7 +18,7 @@ import '../your_places/your_places.dart';
 class Dashboard extends StatelessWidget {
   Dashboard({super.key});
 
-  List<dynamic> bottomBarList = [
+  final List<dynamic> bottomBarList = [
     {
       "icon": "home".png,
       "title": "Home",

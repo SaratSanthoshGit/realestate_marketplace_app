@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:realestate_marketplace_app/controller/route_controller.dart';
 import 'package:realestate_marketplace_app/screens/login/login_screen.dart';
 import 'package:realestate_marketplace_app/utils/c_extensions.dart';
-import 'package:realestate_marketplace_app/utils/manager/color_manager.dart';
+import 'package:realestate_marketplace_app/utils/manager/color_manager.dart' as cm;
+import 'package:realestate_marketplace_app/utils/resizer/fetch_pixels.dart';
 import 'package:realestate_marketplace_app/widget/appbar/first_appbar.dart';
 import 'package:realestate_marketplace_app/widget/widget_utils.dart';
-
-import '../../Utils/manager/color_manager.dart';
+// import '../../Utils/manager/color_manager.dart';
 import '../../widget/buttons/secondary_button.dart';
 import '../login/vm_login.dart';
 
@@ -18,7 +19,7 @@ class CDrawer extends StatelessWidget {
     final data = Get.find<VMLogin>();
 
     return Scaffold(
-      backgroundColor: darkBlue,
+      backgroundColor: cm.darkBlue,
       body: SafeArea(
         child: getPaddingWidget(
           const EdgeInsets.all(10),
@@ -46,7 +47,7 @@ class CDrawer extends StatelessWidget {
                       "Home",
                       isActive: RouteController.to.currentPos.value == 0,
                       onTap: () {
-                        RouteController.to.zoomDrawerController.close();
+                        RouteController.to.zoomDrawerController.close!();
                         RouteController.to.currentPos.value = 0;
                       },
                     ),
@@ -55,7 +56,7 @@ class CDrawer extends StatelessWidget {
                       "Your Places",
                       isActive: RouteController.to.currentPos.value == 1,
                       onTap: () {
-                        RouteController.to.zoomDrawerController.close();
+                        RouteController.to.zoomDrawerController.close!();
                         if (data.isLoggedIn.value) {
                           RouteController.to.currentPos.value = 1;
                         } else {
@@ -68,7 +69,7 @@ class CDrawer extends StatelessWidget {
                       "Profile",
                       isActive: RouteController.to.currentPos.value == 2,
                       onTap: () {
-                        RouteController.to.zoomDrawerController.close();
+                        RouteController.to.zoomDrawerController.close!();
                         if (data.isLoggedIn.value) {
                           RouteController.to.currentPos.value = 2;
                         } else {
@@ -144,7 +145,6 @@ class DrawerTile<T> extends StatelessWidget {
                           ? ImageIcon(
                               AssetImage(icon.toString().png),
                               color: Colors.white,
-                              size: icon == "heart" ? 17 : 20,
                               size: FetchPixels.getPixelHeight(
                                 icon == "heart" ? 17 : 20,
                               ),
@@ -152,7 +152,6 @@ class DrawerTile<T> extends StatelessWidget {
                           : Icon(
                               icon as IconData,
                               color: Colors.white,
-                              size: 22,
                               size: FetchPixels.getPixelHeight(22),
                             ),
                       const SizedBox(
