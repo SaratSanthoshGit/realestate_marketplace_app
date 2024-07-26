@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/firebase_service.dart';
+import '../Utils/firebase_service.dart';
 
 class HomeScreen extends StatelessWidget {
   final FirebaseService _firebaseService = FirebaseService();

@@ -1,57 +1,52 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'screens/home_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:realestate_marketplace_app/screens/dashboard/dashboard.dart';
+import 'package:realestate_marketplace_app/utils/manager/font_manager.dart';
+import 'package:realestate_marketplace_app/utils/resizer/fetch_pixels.dart';
+
+import 'controller/binder.dart';
+import 'firebase_options.dart';
+import 'screens/onboarding/onboarding_page.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  final binding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: binding);
+  await GetStorage.init();
+  // await Firebase.initializeApp( // TODO - UnComment this line once firebase connected.
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+    ],
+  );
+  Future.delayed(const Duration(seconds: 1), () {
+    FlutterNativeSplash.remove();
+  });
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  GetStorage box = GetStorage();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Caves Real Estate',
-      theme: ThemeData.dark().copyWith(
-        primaryColor: const Color(0xFF1F1F1F),
-        scaffoldBackgroundColor: const Color(0xFF121212),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF1F1F1F),
-          elevation: 0,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF3A3A3A),
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          ),
-        ),
-        textTheme: const TextTheme(
-          bodyLarge: TextStyle(color: Colors.white),
-          bodyMedium: const TextStyle(color: Colors.white70),
-          titleLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          fillColor: const Color(0xFF2A2A2A),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none,
-          ),
-          labelStyle: const TextStyle(color: Colors.white70),
-        ),
-        cardTheme: CardTheme(
-          color: const Color(0xFF2A2A2A),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
+    FetchPixels(context);
+
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Caves Real Estate",
+      initialBinding: Binder(),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        fontFamily: fontNunito,
       ),
-      home: HomeScreen(),
+      home: (box.read("isSkipped") ?? false) ? Dashboard() : OnBoardingPage(),
     );
   }
 }
