@@ -10,7 +10,7 @@ import 'screens/onboarding/onboarding_page.dart';
 import 'utils/manager/font_manager.dart';
 
 
-void main() async {
+Future <void> main() async {
   final binding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: binding);
   await GetStorage.init();

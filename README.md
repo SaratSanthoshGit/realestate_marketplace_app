@@ -1,16 +1,17 @@
 # realestate_marketplace_app
 
-A new Flutter project.
+Sarat S
+Will H
+Tiansui L
 
-## Getting Started
+CSC 4360 Summer 2024
+Project 2 
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Links: 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://github.com/SaratSanthoshGit/realestate_marketplace_app
+
+https://docs.google.com/presentation/d/1xbKsDs981vDhMheHE8Y99C7qhQ4VcJ05qdmc3FZFsdU/edit#slide=id.p
+

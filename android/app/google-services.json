@@ -9,6 +9,25 @@
       "client_info": {
         "mobilesdk_app_id": "1:614459056873:android:41039bc67a4fbdc8380678",
         "android_client_info": {
+          "package_name": "com.example.r"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNZUsKoyfcTjXgoQMpije-jNAfSIFpTXY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614459056873:android:d84bb3856c59c020380678",
+        "android_client_info": {
           "package_name": "com.example.realestate_marketplace_app"
         }
       },
