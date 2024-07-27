@@ -9,9 +9,7 @@ import '../../widget/widget_utils.dart';
 
 class OnBoardingPage extends StatelessWidget {
   OnBoardingPage({super.key});
-
-  GetStorage box = GetStorage();
-
+  final GetStorage box = GetStorage();
   @override
   Widget build(BuildContext context) {
     return Container(

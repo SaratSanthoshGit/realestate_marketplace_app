@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:realestate_marketplace_app/screens/textbox/vm_textbox.dart';
 import '../../imports/ui_element.dart';
 
 class SecondTextBox extends StatelessWidget {

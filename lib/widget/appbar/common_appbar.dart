@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:realestate_marketplace_app/controller/route_controller.dart';
 import 'package:realestate_marketplace_app/utils/c_extensions.dart';
 
 import '../../screens/login/login_screen.dart';

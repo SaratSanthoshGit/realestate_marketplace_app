@@ -59,6 +59,7 @@ dependencies:
   avatar_glow: any
   fluttertoast: any
   lottie: any
+  logging: ^1.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

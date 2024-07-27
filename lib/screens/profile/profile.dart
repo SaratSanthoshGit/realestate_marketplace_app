@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:realestate_marketplace_app/controller/route_controller.dart';
 import 'package:realestate_marketplace_app/screens/profile/manage_places.dart';
-import 'package:realestate_marketplace_app/utils/c_extensions.dart';
-import 'package:realestate_marketplace_app/utils/manager/loading_manager.dart';
-
+import 'package:realestate_marketplace_app/utils/c_extensions.dart' as c_ext;
+import 'package:realestate_marketplace_app/utils/manager/loading_manager.dart' as loading_mgr;
 import '../../utils/manager/color_manager.dart';
 import '../../utils/manager/font_manager.dart';
 import '../../utils/resizer/fetch_pixels.dart';
@@ -40,7 +40,7 @@ class Profile extends StatelessWidget {
     );
   }
 
-  RxBool isEditMode = RxBool(false);
+  final RxBool isEditMode = RxBool(false);
 
   String formatNumber(int number) {
     if (number >= 1e27) {
@@ -102,7 +102,7 @@ class Profile extends StatelessWidget {
                       AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
                           snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return loading;
+                      return loading_mgr.loading;
                     } else if (snapshot.hasData) {
                       Map<String, dynamic>? userFireData =
                           snapshot.data!.data();
@@ -145,8 +145,7 @@ class Profile extends StatelessWidget {
                                         getCustomFont(
                                           userData?.displayName
                                                   .toString()
-                                                  .capitalize ??
-                                              "",
+                                                  .capitalize ?? "",
                                           18,
                                           Colors.black,
                                           1,
@@ -279,7 +278,7 @@ class Profile extends StatelessWidget {
                         ),
                       );
                     } else {
-                      return getErrorMessage();
+                      return c_ext.getErrorMessage("An error occurred");
                     }
                   }),
             ),

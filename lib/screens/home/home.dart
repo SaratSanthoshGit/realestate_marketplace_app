@@ -2,13 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logging/logging.dart';
 import 'package:realestate_marketplace_app/screens/home/search_screen.dart';
 import 'package:realestate_marketplace_app/screens/home/vm_home.dart';
 import 'package:realestate_marketplace_app/utils/manager/font_manager.dart';
 import 'package:realestate_marketplace_app/utils/resizer/fetch_pixels.dart';
 import 'package:realestate_marketplace_app/widget/search.dart';
 import 'package:realestate_marketplace_app/widget/widget_utils.dart';
-
 import '../../model/place_model.dart';
 import '../../utils/manager/loading_manager.dart';
 import '../../widget/appbar/common_appbar.dart';
@@ -17,11 +17,13 @@ import '../../widget/home_card.dart';
 import '../login/vm_login.dart';
 import 'home_list.dart';
 
+// ignore: must_be_immutable
 class Home extends StatelessWidget {
   Home({super.key});
 
-  VMHome vmHome = VMHome.to;
-  RxnInt selectedCategory = RxnInt();
+  final VMHome vmHome = VMHome.to;
+  final RxnInt selectedCategory = RxnInt();
+  final Logger _logger = Logger('Home');
 
   Widget getTitle(String title,
       {bool isRent = false, required List<PlaceModel> place}) {
@@ -54,7 +56,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RouteController routeController = Get.find();
+    Get.find();
     final vmLoginData = Get.find<VMLogin>();
     return Scaffold(
       appBar: CommonAppBar(isHome: true),
@@ -82,7 +84,7 @@ class Home extends StatelessWidget {
                 onTap: () {
                   Get.to(() => SearchScreen());
                 },
-                child: Search(enable: false),
+                child: const Search(enable: false),
               ),
               vSpace(12.5),
               Transform.translate(
@@ -151,7 +153,6 @@ class Home extends StatelessWidget {
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                           snapshot) {
-                    // List channelUsers =
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Container();
                     } else if (snapshot.hasData) {
@@ -186,7 +187,7 @@ class Home extends StatelessWidget {
                               ],
                             );
                     } else {
-                      print(snapshot.error);
+                      _logger.warning('Error in StreamBuilder: ${snapshot.error}');
                       return Container();
                     }
                   },
@@ -212,7 +213,6 @@ class Home extends StatelessWidget {
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                           snapshot) {
-                    // List channelUsers =
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Container();
                     } else if (snapshot.hasData) {
@@ -252,7 +252,7 @@ class Home extends StatelessWidget {
                               ],
                             );
                     } else {
-                      print(snapshot.error);
+                      _logger.warning('Error in StreamBuilder: ${snapshot.error}');
                       return Container();
                     }
                   },

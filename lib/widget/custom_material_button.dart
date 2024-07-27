@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 
 class CustomMaterialButton extends StatelessWidget {
-  Function onTap;
-  final condition;
-  final icon;
-  final name;
+  final VoidCallback onTap;
+  final bool condition;
+  final IconData icon;
+  final String name;
 
-  CustomMaterialButton(this.onTap, this.condition, this.icon, this.name, {super.key});
+  const CustomMaterialButton(this.onTap, this.condition, this.icon, this.name, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: MaterialButton(
-        onPressed: () {
-          onTap();
-        },
+        onPressed: onTap,
         child: Stack(
           alignment: Alignment.topCenter,
           children: [

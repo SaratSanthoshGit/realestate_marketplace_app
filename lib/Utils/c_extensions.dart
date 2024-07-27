@@ -1,7 +1,39 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:realestate_marketplace_app/Utils/resizer/fetch_pixels.dart';
 import 'manager/color_manager.dart';
+
+// Define the CommonController class
+class CommonController extends GetxController {
+  bool isLoading = false;
+}
+
+// Define the getDefaultDecoration method
+BoxDecoration getDefaultDecoration({required BuildContext context, double radius = 0}) {
+  return BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(radius),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.1),
+        blurRadius: 10,
+        offset: Offset(0, 5),
+      ),
+    ],
+  );
+}
+
+extension Numeric on String {
+  bool get isNumeric => num.tryParse(this) != null ? true : false;
+
+  String removeAllHtmlTags() {
+    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+    return replaceAll(exp, '');
+  }
+}
 
 extension WidgetExtentions on Widget {
   addShadow(context) {
@@ -29,27 +61,17 @@ extension WidgetExtentions on Widget {
               child: Center(
                 child: Platform.isAndroid
                     ? const CircularProgressIndicator(
-                  color: Color(0xfff46f4c),
-                )
+                        color: Color(0xfff46f4c),
+                      )
                     : const CupertinoActivityIndicator(
-                  color: Color(0xfff46f4c),
-                ),
+                        color: Color(0xfff46f4c),
+                      ),
               ),
             ),
           ),
         ),
       ],
     );
-  }
-}
-
-extension Numeric on String {
-  bool get isNumeric => num.tryParse(this) != null ? true : false;
-
-  String removeAllHtmlTags() {
-    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
-
-    return replaceAll(exp, '');
   }
 }
 
@@ -67,10 +89,9 @@ extension ColorExtension on String {
 
 extension Storage on String {
   get png => "assets/images/$this.png";
-
   get lottieAnimation => "assets/animations/$this.json";
-get railwayImage => "assets/railway_images/$this";
-get lottie => "assets/animations/$this.json";
+  get railwayImage => "assets/railway_images/$this";
+  get lottie => "assets/animations/$this.json";
 }
 
 getErrorMessage(msg) {

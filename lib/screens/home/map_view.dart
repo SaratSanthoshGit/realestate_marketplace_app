@@ -35,9 +35,9 @@ class MapView extends StatelessWidget {
           Expanded(
             child: FlutterMap(
               mapController: _mapController,
-              options: MapOptions(
-                center: LatLng(20.5937, 78.9629),
-                zoom: 5,
+              options: const MapOptions(
+                initialCenter: LatLng(20.5937, 78.9629),
+                initialZoom: 5,
               ),
               children: [
                 TileLayer(
@@ -45,27 +45,30 @@ class MapView extends StatelessWidget {
                   userAgentPackageName: 'com.example.app',
                 ),
                 MarkerLayer(
-                    markers: place
-                        .map(
-                          (item) => Marker(
-                            point: LatLng(item.latitude!, item.longitude!),
-                            builder: (context) => GestureDetector(
-                              onTap: () {
-                                Get.to(
-                                  () => HomeDetailView(
-                                    placeData: item,
-                                    isLiked:
-                                        vmHome.favorites.contains(item.placeId),
-                                  ),
-                                );
-                              },
-                              child: Image(
-                                image: AssetImage("home_marker".png),
-                              ),
+                  markers: place
+                      .map(
+                        (item) => Marker(
+                          point: LatLng(item.latitude!, item.longitude!),
+                          width: 40,
+                          height: 40,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.to(
+                                () => HomeDetailView(
+                                  placeData: item,
+                                  isLiked:
+                                      vmHome.favorites.contains(item.placeId),
+                                ),
+                              );
+                            },
+                            child: Image(
+                              image: AssetImage("home_marker".png),
                             ),
                           ),
-                        )
-                        .toList()),
+                        ),
+                      )
+                      .toList(),
+                ),
               ],
             ),
           ),

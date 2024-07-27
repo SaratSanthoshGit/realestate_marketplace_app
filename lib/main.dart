@@ -27,7 +27,7 @@ void main() async {
   runApp(MyApp());
 }
 class MyApp extends StatelessWidget {
-  GetStorage box = GetStorage();
+  final GetStorage box = GetStorage();
 
   MyApp({super.key});
 

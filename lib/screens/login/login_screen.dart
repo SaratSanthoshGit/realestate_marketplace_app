@@ -12,10 +12,8 @@ import '../textbox/first_textbox.dart';
 
 class LoginScreen extends StatelessWidget {
   final Function? onDone;
-
-  LoginScreen({super.key, this.onDone});
-
-  RxBool selectedTab = RxBool(true);
+  final RxBool selectedTab;
+  LoginScreen({super.key, this.onDone}) : selectedTab = RxBool(true);
 
   @override
   Widget build(BuildContext context) {

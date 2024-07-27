@@ -4,6 +4,7 @@ import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logging/logging.dart';
 import 'package:realestate_marketplace_app/utils/manager/color_manager.dart';
 import 'package:realestate_marketplace_app/utils/manager/font_manager.dart';
 
@@ -17,6 +18,10 @@ import '../your_places/vm_new_place.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({super.key});
+
+  final data = Get.find<VMNewPlace>();
+  final TextEditingController search = TextEditingController();
+  final Logger _logger = Logger('SearchScreen');
 
   double degreesToRadians(double degrees) {
     return degrees * (pi / 180.0);
@@ -34,10 +39,6 @@ class SearchScreen extends StatelessWidget {
     final double distance = earthRadius * c;
     return distance;
   }
-
-  final data = Get.find<VMNewPlace>();
-
-  TextEditingController search = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +136,6 @@ class SearchScreen extends StatelessWidget {
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                           snapshot) {
-                    // List channelUsers =
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return loading;
                     } else if (snapshot.hasData) {
@@ -288,7 +288,7 @@ class SearchScreen extends StatelessWidget {
                         ),
                       );
                     } else {
-                      print(snapshot.error);
+                      _logger.warning('Error in StreamBuilder: ${snapshot.error}');
                       return getErrorMessage();
                     }
                   },

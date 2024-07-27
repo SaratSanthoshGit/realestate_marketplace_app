@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,15 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:realestate_marketplace_app/controller/route_controller.dart';
 import 'package:realestate_marketplace_app/screens/home/vm_home.dart';
 import 'package:realestate_marketplace_app/utils/manager/loading_manager.dart';
 import 'package:realestate_marketplace_app/utils/manager/toast_manager.dart';
-
+import 'package:logging/logging.dart';
 import '../../utils/c_extensions.dart';
 import '../textbox/vm_textbox.dart';
 
 class VMLogin extends GetxController {
   final formKey = GlobalKey<FormState>();
+  final _logger = Logger('VMLogin');
 
   RxBool isLoggedIn = RxBool(false);
   Rxn<File> selectedImages = Rxn<File>();
@@ -24,10 +25,9 @@ class VMLogin extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      print(user);
+      _logger.info('Auth state changed: ${user?.uid}');
       loggedInUser.value = user;
       isLoggedIn.value = user != null;
     });
@@ -52,11 +52,9 @@ class VMLogin extends GetxController {
       ToastManager.shared.show("Please enter valid emailId!");
       return false;
     }
-    if (withName) {
-      if (name.text.trim().isEmpty) {
-        ToastManager.shared.show("Please enter your name!");
-        return false;
-      }
+    if (withName && name.text.trim().isEmpty) {
+      ToastManager.shared.show("Please enter your name!");
+      return false;
     }
     if (password.text.trim().length < 6) {
       ToastManager.shared.show("Password should be about 6 characters!");
@@ -65,7 +63,7 @@ class VMLogin extends GetxController {
     return true;
   }
 
-  pickImages() async {
+  Future<void> pickImages() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.image,
     );
@@ -79,10 +77,10 @@ class VMLogin extends GetxController {
       );
       selectedImages.value = File(cResult!.path);
       selectedImages.refresh();
-    } else {}
+    }
   }
 
-  updateProfile(Function() onDone) async {
+  Future<void> updateProfile(Function() onDone) async {
     if (selectedImages.value != null) {
       try {
         LoadingManager.shared.showLoading();
@@ -95,10 +93,10 @@ class VMLogin extends GetxController {
 
         await uploadTask.whenComplete(() async {
           String imageUrl = await storageReference.getDownloadURL();
-          print('Image URL: $imageUrl');
+          _logger.info('Image URL: $imageUrl');
           await user?.updatePhotoURL(imageUrl);
           await user?.reload();
-          FirebaseFirestore.instance.collection("users").doc(user?.uid).update({
+          await FirebaseFirestore.instance.collection("users").doc(user?.uid).update({
             "photo_url": imageUrl,
           });
           loggedInUser.value = FirebaseAuth.instance.currentUser;
@@ -106,7 +104,7 @@ class VMLogin extends GetxController {
         });
       } catch (e) {
         ToastManager.shared.show("Something went wrong!");
-        print('Error uploading image: $e');
+        _logger.severe('Error uploading image: $e');
       } finally {
         LoadingManager.shared.hideLoading();
       }
@@ -115,25 +113,23 @@ class VMLogin extends GetxController {
     }
   }
 
-  login() async {
+  Future<void> login() async {
     if (validate()) {
       LoadingManager.shared.showLoading();
       try {
-        final credential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailId.text,
           password: password.text,
         );
         await FirebaseAuth.instance.currentUser?.reload();
         loggedInUser.value = FirebaseAuth.instance.currentUser;
-        print(credential);
         Get.back();
 
         emailId.controller.clear();
         password.controller.clear();
         name.controller.clear();
       } on FirebaseAuthException catch (e) {
-        print(e.code);
+        _logger.warning('Firebase Auth Exception: ${e.code}');
         if (e.code == 'user-not-found') {
           ToastManager.shared.show("No user found for that email.");
         } else if (e.code == 'wrong-password') {
@@ -142,27 +138,26 @@ class VMLogin extends GetxController {
           ToastManager.shared.show("Invalid login credentials.");
         }
       } catch (e) {
-        print(e);
+        _logger.severe('Unexpected error during login: $e');
       } finally {
         LoadingManager.shared.hideLoading();
       }
     }
   }
 
-  signUp() async {
+  Future<void> signUp() async {
     if (validate(withName: true)) {
       LoadingManager.shared.showLoading();
       try {
-        final credential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        UserCredential credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailId.text,
           password: password.text,
         );
-        User? user = FirebaseAuth.instance.currentUser;
+        User? user = credential.user;
         if (user != null) {
           await user.updateDisplayName(name.text);
           await user.reload();
-          FirebaseFirestore.instance.collection("users").doc(user.uid).set({
+          await FirebaseFirestore.instance.collection("users").doc(user.uid).set({
             "username": name.text,
             "uid": user.uid,
             "photo_url": user.photoURL,
@@ -172,7 +167,7 @@ class VMLogin extends GetxController {
             "created_at": Timestamp.now(),
           });
           loggedInUser.value = FirebaseAuth.instance.currentUser;
-          print(FirebaseAuth.instance.currentUser);
+          _logger.info('User signed up: ${user.uid}');
         }
 
         Get.back();
@@ -181,25 +176,25 @@ class VMLogin extends GetxController {
         password.controller.clear();
         name.controller.clear();
       } on FirebaseAuthException catch (e) {
-        print(e.code);
+        _logger.warning('Firebase Auth Exception during signup: ${e.code}');
         if (e.code == 'weak-password') {
           ToastManager.shared.show("The password provided is too weak.");
         } else if (e.code == 'email-already-in-use') {
-          ToastManager.shared
-              .show("The account already exists for that email.");
+          ToastManager.shared.show("The account already exists for that email.");
         }
       } catch (e) {
-        print(e);
+        _logger.severe('Unexpected error during signup: $e');
       } finally {
         LoadingManager.shared.hideLoading();
       }
     }
   }
 
-  logout() async {
+  Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
     await FirebaseAuth.instance.currentUser?.reload();
     VMHome.to.favorites.value = [];
     RouteController.to.currentPos.value = 0;
+    _logger.info('User logged out');
   }
 }
