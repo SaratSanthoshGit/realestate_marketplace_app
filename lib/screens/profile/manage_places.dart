@@ -47,7 +47,7 @@ class ManagePlaces extends StatelessWidget {
                   } else if (snapshot.hasData) {
                     List<PlaceModel> list = snapshot.data!.docs.map(
                       (e) {
-                        print(e.data());
+                       
                         return PlaceModel.fromJson(
                           e.data(),
                         );
@@ -72,7 +72,7 @@ class ManagePlaces extends StatelessWidget {
                             },
                           );
                   } else {
-                    print(snapshot.error);
+                   
                     return getErrorMessage();
                   }
                 },

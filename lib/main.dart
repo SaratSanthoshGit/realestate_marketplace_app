@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:realestate_marketplace_app/firebase_options.dart';
 import 'screens/dashboard/dashboard.dart';
 import 'screens/onboarding/onboarding_page.dart';
 import 'utils/manager/font_manager.dart';
@@ -12,9 +14,9 @@ void main() async {
   final binding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: binding);
   await GetStorage.init();
-  // await Firebase.initializeApp( // TODO - UnComment this line once firebase connected.
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   SystemChrome.setPreferredOrientations(
     [
       DeviceOrientation.portraitDown,

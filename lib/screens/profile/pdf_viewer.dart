@@ -24,7 +24,7 @@ class PdfView extends StatelessWidget {
             child: const FirstAppBar(title: ''),
           ),
           Expanded(
-            child: PDF().cachedFromUrl(url),
+            child: const PDF().cachedFromUrl(url),
           ),
         ],
       ),

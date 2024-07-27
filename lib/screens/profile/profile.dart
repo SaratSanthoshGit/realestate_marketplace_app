@@ -66,27 +66,28 @@ class Profile extends StatelessWidget {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final data = Get.find<VMLogin>();
-    data.selectedImages.value = null;
-    User? userData = FirebaseAuth.instance.currentUser;
-    double radius = FetchPixels.getPixelWidth(55);
-    return WillPopScope(
-      onWillPop: () async {
-        RouteController.to.currentPos.value = 0;
-        return false;
-      },
-      child: Scaffold(
-        appBar: CObx(
-          () => CommonAppBar(
-            isProfile: !isEditMode.value,
-            isEditModeOn: isEditMode.value,
-            onEditClick: () {
-              isEditMode.value = true;
-            },
-            onDoneClick: () {
-              data.updateProfile(() => isEditMode.value = false);
+ @override
+Widget build(BuildContext context) {
+  final data = Get.find<VMLogin>();
+  data.selectedImages.value = null;
+  User? userData = FirebaseAuth.instance.currentUser;
+  double radius = FetchPixels.getPixelWidth(55);
+  return PopScope(
+    canPop: false,
+    onPopInvoked: (didPop) {
+      if (didPop) return;
+      RouteController.to.currentPos.value = 0;
+    },
+    child: Scaffold(
+      appBar: CObx(
+        () => CommonAppBar(
+          isProfile: !isEditMode.value,
+          isEditModeOn: isEditMode.value,
+          onEditClick: () {
+            isEditMode.value = true;
+          },
+          onDoneClick: () {
+            data.updateProfile(() => isEditMode.value = false);
             },
           ),
         ),

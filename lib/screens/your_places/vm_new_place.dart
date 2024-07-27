@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:logger/logger.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,7 +13,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:realestate_marketplace_app/model/place_model.dart';
 import 'package:realestate_marketplace_app/utils/manager/toast_manager.dart';
 import 'package:realestate_marketplace_app/widget/widget_utils.dart';
-
 import '../../model/category_model.dart';
 import '../../utils/c_extensions.dart';
 import '../../utils/manager/color_manager.dart';
@@ -22,6 +21,7 @@ import '../../utils/manager/loading_manager.dart';
 import '../textbox/vm_textbox.dart';
 
 class VMNewPlace extends GetxController {
+  final logger = Logger();
   Rx<List<Marker>> customMarkers = Rx([]);
   Rxn<File> selectedPdf = Rxn<File>();
   Rx<List<File>> selectedImages = Rx<List<File>>([]);
@@ -257,7 +257,7 @@ class VMNewPlace extends GetxController {
         }
       }
     } catch (e) {
-      print(e);
+      logger.e(e);
       ToastManager.shared.show("Failed to create place!");
     } finally {
       LoadingManager.shared.hideLoading();
@@ -292,7 +292,7 @@ class VMNewPlace extends GetxController {
         userRef.update({"places": places - 1});
       }
     } catch (e) {
-      print('Error deleting image: $e');
+      logger.e('Error deleting image: $e');
       ToastManager.shared.show("Failed to delete place!");
     } finally {
       LoadingManager.shared.hideLoading();
@@ -310,22 +310,18 @@ class VMNewPlace extends GetxController {
   }
 
   approvePlace(placeId) async {
-    // LoadingManager.shared.showLoading();
     try {
       FirebaseFirestore.instance.collection("places").doc(placeId).update({
         "isApproved": true,
       });
       Get.back();
     } catch (e) {
-      print(e);
+      logger.e(e);
       ToastManager.shared.show("Failed to approve place!");
-    } finally {
-      // LoadingManager.shared.hideLoading();
     }
   }
 
   rejectPlace(placeId, reason) async {
-    // LoadingManager.shared.showLoading();
     try {
       FirebaseFirestore.instance.collection("places").doc(placeId).update({
         "isApproved": false,
@@ -334,10 +330,8 @@ class VMNewPlace extends GetxController {
       Get.back();
       Get.back();
     } catch (e) {
-      print(e);
+      logger.e(e);
       ToastManager.shared.show("Failed to reject place!");
-    } finally {
-      // LoadingManager.shared.hideLoading();
     }
   }
 
@@ -363,7 +357,7 @@ class VMNewPlace extends GetxController {
     }
 
     currentLocation = await Geolocator.getCurrentPosition();
-    print(currentLocation);
+    logger.i(currentLocation);
   }
 
   Future<List<String>> uploadImages(documentId) async {
@@ -380,14 +374,14 @@ class VMNewPlace extends GetxController {
         await uploadTask.whenComplete(() async {
           String imageUrl = await storageReference.getDownloadURL();
           downloadUrls.add(imageUrl);
-          print('Image URL: $imageUrl');
+          logger.i('Image URL: $imageUrl');
         });
       }
 
       return downloadUrls;
     } catch (e) {
       ToastManager.shared.show("Failed to upload images!");
-      print('Error uploading image: $e');
+      logger.e('Error uploading image: $e');
       return [];
     }
   }
@@ -406,12 +400,12 @@ class VMNewPlace extends GetxController {
       await uploadTask.whenComplete(() async {
         String imageUrl = await storageReference.getDownloadURL();
         url = imageUrl;
-        print('Image URL: $imageUrl');
+        logger.i('Image URL: $imageUrl');
       });
       return url;
     } catch (e) {
       ToastManager.shared.show("Failed to upload land document!");
-      print('Error uploading image: $e');
+      logger.e('Error uploading image: $e');
       return null;
     }
   }

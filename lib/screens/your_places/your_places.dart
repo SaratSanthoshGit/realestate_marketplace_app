@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:realestate_marketplace_app/controller/route_controller.dart';
 import 'package:realestate_marketplace_app/model/place_model.dart';
 import 'package:realestate_marketplace_app/utils/manager/loading_manager.dart';
@@ -12,14 +13,17 @@ import '../../widget/home_card.dart';
 import '../../widget/widget_utils.dart';
 
 class YourPlaces extends StatelessWidget {
-  const YourPlaces({super.key});
+  YourPlaces({super.key});
+
+  final Logger _logger = Logger('YourPlaces');
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
         RouteController.to.currentPos.value = 0;
-        return false;
       },
       child: Scaffold(
         appBar: CommonAppBar(isMyPlace: true),
@@ -32,13 +36,12 @@ class YourPlaces extends StatelessWidget {
               .snapshots(),
           builder: (BuildContext context,
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-            // List channelUsers =
             if (snapshot.connectionState == ConnectionState.waiting) {
               return loading;
             } else if (snapshot.hasData) {
               List<PlaceModel> list = snapshot.data!.docs.map(
                 (e) {
-                  print(e.data());
+                  _logger.info('Place data: ${e.data()}');
                   return PlaceModel.fromJson(
                     e.data(),
                   );
@@ -77,7 +80,6 @@ class YourPlaces extends StatelessWidget {
                                   child: HomeCard(
                                     isDetailedList: true,
                                     isMyPlaceList: true,
-                                    // onTap: () {},
                                     placeData: list[index],
                                   ),
                                 );
@@ -88,7 +90,7 @@ class YourPlaces extends StatelessWidget {
                       ),
                     );
             } else {
-              print(snapshot.error);
+              _logger.warning('Error in StreamBuilder: ${snapshot.error}');
               return getErrorMessage();
             }
           },

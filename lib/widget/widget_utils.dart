@@ -40,6 +40,7 @@ Widget getCustomFont(String text, double fontSize, Color fontColor, int maxLine,
     maxLines: maxLine,
     softWrap: true,
     textAlign: textAlign,
+    // ignore: deprecated_member_use
     textScaleFactor: FetchPixels.getTextScale(horFactor: horFactor),
   );
 }

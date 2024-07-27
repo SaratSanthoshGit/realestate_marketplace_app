@@ -19,7 +19,7 @@ class Search extends StatelessWidget {
       height: FetchPixels.getPixelHeight(40),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
-        child: TextField(
+        child: const TextField(
           // Your TextField properties here
         ),
       ),

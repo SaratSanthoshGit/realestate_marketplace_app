@@ -60,6 +60,7 @@ dependencies:
   fluttertoast: any
   lottie: any
   logging: ^1.2.0
+  logger: ^2.4.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

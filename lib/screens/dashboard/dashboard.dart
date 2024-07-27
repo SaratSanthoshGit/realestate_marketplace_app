@@ -47,7 +47,7 @@ class Dashboard extends StatelessWidget {
           () => routeController.currentPos.value == 0
               ? Home()
               : routeController.currentPos.value == 1
-                  ? const YourPlaces()
+                  ? YourPlaces()
                   : routeController.currentPos.value == 2
                       ? Profile()
                       : const Favorites(),
