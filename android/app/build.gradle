@@ -27,6 +27,9 @@ if (flutterVersionName == null) {
 }
 
 android {
+    defaultConfig {                                                                             │
+│     minSdkVersion 23                                                                          │
+│   } 
     namespace = "com.example.realestate_marketplace_app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
